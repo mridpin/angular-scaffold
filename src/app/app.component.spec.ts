@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'kenjo-webapp'`, () => {
+  it(`should have as title 'angular-scaffold'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('kenjo-webapp');
+    expect(app.title).toEqual('angular-scaffold');
   });
 
   // it('should render title', () => {
   //   const fixture = TestBed.createComponent(AppComponent);
   //   fixture.detectChanges();
   //   const compiled = fixture.nativeElement;
-  //   expect(compiled.querySelector('.content span').textContent).toContain('kenjo-webapp app is running!');
+  //   expect(compiled.querySelector('.content span').textContent).toContain('angular-scaffold app is running!');
   // });
 });

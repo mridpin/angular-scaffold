@@ -1,6 +1,6 @@
 version: '3.9'
 services:
-  kenjo-webapp:
+  angular-scaffold:
     container_name: kenjo-angular-webapp
     image: ridao/kenjo:latest
     ports:

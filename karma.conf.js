@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/kenjo-webapp'),
+      dir: require('path').join(__dirname, './coverage/angular-scaffold'),
       subdir: '.',
       reporters: [
         { type: 'html' },
