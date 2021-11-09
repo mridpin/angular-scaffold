@@ -1,0 +1,134 @@
+<div class="modal is-active">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Please fill in the album data:</p>
+      <button class="delete" aria-label="close" (click)="cancelEdit()"></button>
+    </header>
+    <section class="modal-card-body">
+      <div *ngIf="apiErrorMessage">
+        <app-notification-panel
+          (event)="closeErrorPanel()"
+          [text]="apiErrorMessage"
+        ></app-notification-panel>
+      </div>
+      <form [formGroup]="formGroup" id="album-form" (ngSubmit)="saveEdit()">
+        <div class="field">
+          <label class="label">Album title *</label>
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              placeholder="Album title..."
+              formControlName="title"
+            />
+          </div>
+          <p
+            *ngIf="
+              (!formGroup.controls.title.valid &&
+                formGroup.controls.title.dirty) ||
+              hasErrors.title
+            "
+            class="help is-danger"
+          >
+            Title is required
+          </p>
+        </div>
+        <div class="field">
+          <label class="label">Artist *</label>
+          <div class="control">
+            <ng-select
+              [items]="artists"
+              [loading]="loading"
+              formControlName="artist"
+              bindLabel="name"
+            ></ng-select>
+          </div>
+          <p
+            *ngIf="
+              (!formGroup.controls.artist.valid &&
+                formGroup.controls.artist.dirty) ||
+              hasErrors.artist
+            "
+            class="help is-danger"
+          >
+            Artist is required
+          </p>
+        </div>
+        <div class="field">
+          <label class="label">Year *</label>
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              placeholder="Album year..."
+              formControlName="year"
+            />
+          </div>
+          <p
+            *ngIf="
+              (!formGroup.controls.year.valid &&
+                formGroup.controls.year.dirty) ||
+              hasErrors.year
+            "
+            class="help is-danger"
+          >
+            Year is required and must be between 1909 and 2030
+          </p>
+        </div>
+        <div class="field">
+          <label class="label">Genre *</label>
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              placeholder="Album genre..."
+              formControlName="genre"
+            />
+          </div>
+          <p
+            *ngIf="
+              (!formGroup.controls.genre.valid &&
+                formGroup.controls.genre.dirty) ||
+              hasErrors.genre
+            "
+            class="help is-danger"
+          >
+            Genre is required
+          </p>
+        </div>
+        <div class="field">
+          <label class="label">Cover Image URL *</label>
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              placeholder="https://...."
+              formControlName="coverUrl"
+            />
+          </div>
+          <p
+            *ngIf="
+              (!formGroup.controls.coverUrl.valid &&
+                formGroup.controls.coverUrl.dirty) ||
+              hasErrors.coverUrl
+            "
+            class="help is-danger"
+          >
+            Cover URL is required
+          </p>
+        </div>
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <button
+        type="submit"
+        form="album-form"
+        id="submit-button"
+        class="button is-primary"
+      >
+        Save
+      </button>
+    </footer>
+  </div>
+</div>

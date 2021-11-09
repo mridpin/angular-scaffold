@@ -1,0 +1,106 @@
+<section class="section">
+  <div *ngIf="isEdit" id="album-form-modal-container">
+    <app-artist-form
+      (saveEditEvent)="saveArtist($event)"
+      (cancelEvent)="closeModal()"
+      (clearErrorMessageEvent)="clearErrorMessage()"
+      [artist]="editedArtist"
+      [apiErrorMessage]="apiErrorMessage"
+    ></app-artist-form>
+  </div>
+  <ng-template #desktop>
+    <h2 class="title is-4">Artists</h2>
+    <div class="container">
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>Artist</th>
+            <th>Name</th>
+            <!-- <th>Artist</th> -->
+            <th>Birthdate</th>
+            <th>Death date</th>
+            <th>Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let artist of artists | async">
+            <td>
+              <figure class="image is-128x128">
+                <img [src]="artist.photoUrl" [alt]="artist.name" />
+              </figure>
+            </td>
+            <td>
+              <span class="has-text-weight-bold">{{ artist.name }}</span>
+            </td>
+            <!-- <td>{{ artist.artist }}</td> -->
+            <td>{{ artist.birthdate | date: "longDate" }}</td>
+            <td>{{ artist.deathDate | date: "longDate" }}</td>
+            <td>
+              <a class="button" (click)="openEditDialog(artist)"
+                ><span class="icon is-medium"
+                  ><i class="fa fa-pencil" aria-hidden="true"></i></span
+              ></a>
+              <a class="button" (click)="deleteArtist(artist)"
+                ><span class="icon is-medium"
+                  ><i class="fa fa-trash" aria-hidden="true"></i></span
+              ></a>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <a
+                id="add-artist-button"
+                class="button is-fullwidth is-link"
+                (click)="openCreateDialog()"
+              >
+                Add artist
+              </a>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </ng-template>
+
+  <ng-template #mobile>
+    <div class="container">
+      <div class="card mb-3" *ngFor="let artist of artists | async">
+        <header class="card-header">
+          <p class="card-header-title">{{ artist.name }}</p>
+        </header>
+        <div
+          class="card-content"
+          style="display: flex; justify-content: space-between"
+        >
+          <ul>
+            <li>Birthdate: {{ artist.birthdate | date: "longDate" }}</li>
+            <li>Death date: {{ artist.deathDate | date: "longDate" }}</li>
+            <li>
+              <a class="button" (click)="openEditDialog(artist)"
+                ><span class="icon is-medium"
+                  ><i class="fa fa-pencil" aria-hidden="true"></i></span
+              ></a>
+              <a class="button" (click)="deleteArtist(artist)"
+                ><span class="icon is-medium"
+                  ><i class="fa fa-trash" aria-hidden="true"></i></span
+              ></a>
+            </li>
+          </ul>
+          <div class="card-image">
+            <figure class="image is-64x64">
+              <img [src]="artist.photoUrl" />
+            </figure>
+          </div>
+        </div>
+      </div>
+      <a class="button is-fullwidth is-link" (click)="openCreateDialog()">
+        Add artist
+      </a>
+    </div>
+  </ng-template>
+  <ng-container
+    *ngTemplateOutlet="innerWidth > 768 ? desktop : mobile"
+  ></ng-container>
+</section>

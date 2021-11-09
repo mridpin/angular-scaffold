@@ -1,0 +1,104 @@
+<section class="section">
+  <div *ngIf="isEdit">
+    <app-album-form
+      (saveEditEvent)="saveAlbum($event)"
+      (cancelEvent)="closeModal()"
+      (clearErrorMessageEvent)="clearErrorMessage()"
+      [album]="editedAlbum"
+      [apiErrorMessage]="apiErrorMessage"
+    ></app-album-form>
+  </div>
+  <ng-template #desktop>
+    <h2 class="title is-4">Albums</h2>
+    <div class="container">
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>Album</th>
+            <th>Title</th>
+            <th>Artist</th>
+            <th>Year</th>
+            <th>Genre</th>
+            <th>Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let album of albums | async">
+            <td>
+              <figure class="image is-128x128">
+                <img [src]="album.coverUrl" [alt]="album.title" />
+              </figure>
+            </td>
+            <td><span class="has-text-weight-bold">{{ album.title }}</span></td>
+            <td>{{ album.artist?.name || "-" }}</td>
+            <td>{{ album.year }}</td>
+            <td>{{ album.genre }}</td>
+            <td>
+              <a class="button" (click)="openEditDialog(album)"
+                ><span class="icon is-medium"
+                  ><i class="fa fa-pencil" aria-hidden="true"></i></span
+              ></a>
+              <a class="button" (click)="deleteAlbum(album)"
+                ><span class="icon is-medium"
+                  ><i class="fa fa-trash" aria-hidden="true"></i></span
+              ></a>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5">
+              <a
+                class="button is-fullwidth is-link"
+                (click)="openCreateDialog()"
+              >
+                Add album
+              </a>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </ng-template>
+
+  <ng-template #mobile>
+    <div class="container">
+      <div class="card mb-3" *ngFor="let album of albums | async">
+        <header class="card-header">
+          <p class="card-header-title">{{ album.title }}</p>
+        </header>
+        <div
+          class="card-content"
+          style="display: flex; justify-content: space-between"
+        >
+          <ul>
+            <li>Artist: {{ album.artist?.name || "-" }}</li>
+            <li>Year: {{ album.year }}</li>
+            <li>Genre: {{ album.genre }}</li>
+            <li>
+              <a class="button" (click)="openEditDialog(album)"
+                ><span class="icon is-medium"
+                  ><i class="fa fa-pencil" aria-hidden="true"></i></span
+              ></a>
+              <a class="button" (click)="deleteAlbum(album)"
+                ><span class="icon is-medium"
+                  ><i class="fa fa-trash" aria-hidden="true"></i></span
+              ></a>
+            </li>
+          </ul>
+          <div class="card-image">
+            <figure class="image is-64x64">
+              <img [src]="album.coverUrl" />
+            </figure>
+          </div>
+        </div>
+      </div>
+      <a class="button is-fullwidth is-link" (click)="openCreateDialog()">
+        Add album
+      </a>
+    </div>
+  </ng-template>
+  <ng-container
+    *ngTemplateOutlet="innerWidth > 768 ? desktop : mobile"
+  ></ng-container>
+</section>

@@ -1,0 +1,111 @@
+<div class="modal is-active">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Please fill in the artist data:</p>
+      <button class="delete" aria-label="close" (click)="cancelEdit()"></button>
+    </header>
+    <section class="modal-card-body">
+      <div *ngIf="apiErrorMessage">
+        <app-notification-panel
+          (event)="closeErrorPanel()"
+          [text]="apiErrorMessage"
+        ></app-notification-panel>
+      </div>
+      <form [formGroup]="formGroup" id="artist-form" (ngSubmit)="saveEdit()">
+        <div class="field">
+          <label class="label">Artist name *</label>
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              placeholder="Artist name..."
+              formControlName="name"
+            />
+          </div>
+          <p
+            *ngIf="
+              (!formGroup.controls.name.valid &&
+                formGroup.controls.name.dirty) ||
+              hasErrors.name
+            "
+            class="help is-danger"
+          >
+            Title is required
+          </p>
+        </div>
+        <div class="field">
+          <label class="label">Birthdate *</label>
+          <div class="control">
+            <input
+              type="date"
+              name="birthdate"
+              min="1909-01-01"
+              max="2030-01-01"
+              placeholder="Artist birth or creation date..."
+              formControlName="birthdate"
+            />
+          </div>
+          <p
+            *ngIf="
+              (!formGroup.controls.birthdate.valid &&
+                formGroup.controls.birthdate.dirty) ||
+              hasErrors.birthdate
+            "
+            class="help is-danger"
+          >
+            Birth date is required and must be between 1909 and 2030
+          </p>
+        </div>
+        <div class="field">
+          <label class="label">Death date</label>
+          <div class="control">
+            <input
+              type="date"
+              min="1909-01-01"
+              max="2030-01-01"
+              placeholder="Artist death or disbandment date..."
+              formControlName="deathDate"
+            />
+          </div>
+          <p
+            *ngIf="
+              (!formGroup.controls.deathDate.valid &&
+                formGroup.controls.deathDate.dirty) ||
+              hasErrors.deathDate
+            "
+            class="help is-danger"
+          >
+            Death date is required and must be between 1909 and 2030
+          </p>
+        </div>
+        <div class="field">
+          <label class="label">Photo Image URL *</label>
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              placeholder="https://...."
+              formControlName="photoUrl"
+            />
+          </div>
+          <p
+            *ngIf="
+              (!formGroup.controls.photoUrl.valid &&
+                formGroup.controls.photoUrl.dirty) ||
+              hasErrors.photoUrl
+            "
+            class="help is-danger"
+          >
+            Photo URL is required
+          </p>
+        </div>
+      </form>
+    </section>
+    <footer class="modal-card-foot">
+      <button type="submit" form="artist-form" class="button is-primary">
+        Save
+      </button>
+    </footer>
+  </div>
+</div>
