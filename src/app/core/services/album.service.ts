@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Album } from '../models/album/album';
+import { Album } from '../models/album';
 
 @Injectable()
 export class AlbumService {

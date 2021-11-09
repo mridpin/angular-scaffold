@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AlbumsAPIService } from './services/api/albumsAPI.service';
 import { ApiService } from './services/api/api.service';
-import { AlbumAdapter } from './models/album/album';
-import { ArtistAdapter } from './models/artist/artist';
+import { AlbumAdapter } from './models/album';
+import { ArtistAdapter } from './models/artist';
 import { ArtistsAPIService } from './services/api/artistsAPI.service';
 
 @NgModule({

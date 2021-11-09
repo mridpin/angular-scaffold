@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { Album } from 'src/app/core/models/album/album';
-import { Artist } from 'src/app/core/models/artist/artist';
+import { Album } from 'src/app/core/models/album';
+import { Artist } from 'src/app/core/models/artist';
 import { ArtistsAPIService } from 'src/app/core/services/api/artistsAPI.service';
 
 type ErrorDict = {

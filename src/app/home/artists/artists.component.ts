@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Artist } from 'src/app/core/models/artist/artist';
+import { Artist } from 'src/app/core/models/artist';
 import { ArtistService } from 'src/app/core/services/artist.service';
 import { ArtistsAPIService } from 'src/app/core/services/api/artistsAPI.service';
 

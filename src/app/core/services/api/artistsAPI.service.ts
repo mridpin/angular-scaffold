@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Artist, ArtistAdapter } from '../../models/artist/artist';
+import { Artist, ArtistAdapter } from '../../models/artist';
 import { ApiService } from './api.service';
 
 @Injectable()

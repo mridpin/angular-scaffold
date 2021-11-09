@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Artist } from 'src/app/core/models/artist/artist';
+import { Artist } from 'src/app/core/models/artist';
 import { formatDate } from '@angular/common';
 
 type ErrorDict = {

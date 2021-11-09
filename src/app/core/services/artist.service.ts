@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Artist } from '../models/artist/artist';
+import { Artist } from '../models/artist';
 
 @Injectable()
 export class ArtistService {

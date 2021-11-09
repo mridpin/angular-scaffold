@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CoreModule } from '../../core.module';
-import { Artist, ArtistAdapter } from '../../models/artist/artist';
+import { Artist, ArtistAdapter } from '../../models/artist';
 import { ApiService } from './api.service';
 
 import { ArtistsAPIService } from './artistsAPI.service';

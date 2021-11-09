@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Artist, ArtistAdapter } from '../artist/artist';
-import { Adapter } from '../utils/adapter';
+import { Artist, ArtistAdapter } from './artist';
+import { Adapter } from './utils/adapter';
 
 export interface Album {
   id: string;

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
 import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Album, AlbumAdapter, AlbumDTO } from '../../models/album/album';
-import { Artist } from '../../models/artist/artist';
+import { Album, AlbumAdapter, AlbumDTO } from '../../models/album';
+import { Artist } from '../../models/artist';
 import { ApiService } from './api.service';
 import { ArtistsAPIService } from './artistsAPI.service';
 

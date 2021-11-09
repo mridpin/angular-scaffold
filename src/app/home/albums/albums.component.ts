@@ -1,8 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Album, AlbumAdapter, AlbumDTO } from 'src/app/core/models/album/album';
-import { Artist } from 'src/app/core/models/artist/artist';
+import { Album, AlbumAdapter, AlbumDTO } from 'src/app/core/models/album';
+import { Artist } from 'src/app/core/models/artist';
 import { AlbumService } from 'src/app/core/services/album.service';
 import { AlbumsAPIService } from 'src/app/core/services/api/albumsAPI.service';
 import { ArtistsAPIService } from 'src/app/core/services/api/artistsAPI.service';

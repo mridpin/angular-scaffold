@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CoreModule } from 'src/app/core/core.module';
-import { Artist, ArtistAdapter } from 'src/app/core/models/artist/artist';
+import { Artist, ArtistAdapter } from 'src/app/core/models/artist';
 import { ArtistsAPIService } from 'src/app/core/services/api/artistsAPI.service';
 
 import { ArtistsComponent } from './artists.component';
