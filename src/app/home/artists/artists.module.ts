@@ -7,9 +7,10 @@ import { ArtistsComponent } from './artists.component';
 import { ArtistsRoutingModule } from './artists-routing.module';
 import { ArtistService } from 'src/app/core/services/artist.service';
 import { ArtistFormComponent } from './artist-form/artist-form.component';
+import { ArtistComponent } from './artist/artist.component';
 
 @NgModule({
-  declarations: [ArtistsComponent, ArtistFormComponent],
+  declarations: [ArtistsComponent, ArtistFormComponent, ArtistComponent],
   imports: [
     CommonModule,
     CoreModule,

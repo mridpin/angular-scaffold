@@ -16,7 +16,6 @@
           <tr>
             <th>Artist</th>
             <th>Name</th>
-            <!-- <th>Artist</th> -->
             <th>Birthdate</th>
             <th>Death date</th>
             <th>Edit</th>
@@ -32,18 +31,11 @@
             <td>
               <span class="has-text-weight-bold">{{ artist.name }}</span>
             </td>
-            <!-- <td>{{ artist.artist }}</td> -->
             <td>{{ artist.birthdate | date: "longDate" }}</td>
             <td>{{ artist.deathDate | date: "longDate" }}</td>
             <td>
-              <a class="button" (click)="openEditDialog(artist)"
-                ><span class="icon is-medium"
-                  ><i class="fa fa-pencil" aria-hidden="true"></i></span
-              ></a>
-              <a class="button" (click)="deleteArtist(artist)"
-                ><span class="icon is-medium"
-                  ><i class="fa fa-trash" aria-hidden="true"></i></span
-              ></a>
+              <a class="button" [routerLink]="['artist/', artist.id]"
+                >Manage</a>
             </td>
           </tr>
         </tbody>

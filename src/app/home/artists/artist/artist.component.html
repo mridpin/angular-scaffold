@@ -1,0 +1,118 @@
+<div class="section">
+  <h2 class="title is-2">Artist details:</h2>
+  <div class="tile is-ancestor">
+    <div class="tile is-child box">
+      <div *ngIf="apiErrorMessage">
+        <app-notification-panel
+          (event)="closeErrorPanel()"
+          [text]="apiErrorMessage"
+        ></app-notification-panel>
+      </div>
+      <form [formGroup]="formGroup" id="artist-form" (ngSubmit)="saveEdit()">
+        <div class="field">
+          <label class="label">Artist name *</label>
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              placeholder="Artist name..."
+              formControlName="name"
+            />
+          </div>
+          <p
+            *ngIf="
+              (!formGroup.controls.name.valid &&
+                formGroup.controls.name.dirty) ||
+              hasErrors.name
+            "
+            class="help is-danger"
+          >
+            Title is required
+          </p>
+        </div>
+        <div class="field">
+          <label class="label">Birthdate *</label>
+          <div class="control">
+            <input
+              type="date"
+              name="birthdate"
+              min="1909-01-01"
+              max="2030-01-01"
+              placeholder="Artist birth or creation date..."
+              formControlName="birthdate"
+            />
+          </div>
+          <p
+            *ngIf="
+              (!formGroup.controls.birthdate.valid &&
+                formGroup.controls.birthdate.dirty) ||
+              hasErrors.birthdate
+            "
+            class="help is-danger"
+          >
+            Birth date is required and must be between 1909 and 2030
+          </p>
+        </div>
+        <div class="field">
+          <label class="label">Death date</label>
+          <div class="control">
+            <input
+              type="date"
+              min="1909-01-01"
+              max="2030-01-01"
+              placeholder="Artist death or disbandment date..."
+              formControlName="deathDate"
+            />
+          </div>
+          <p
+            *ngIf="
+              (!formGroup.controls.deathDate.valid &&
+                formGroup.controls.deathDate.dirty) ||
+              hasErrors.deathDate
+            "
+            class="help is-danger"
+          >
+            Death date is required and must be between 1909 and 2030
+          </p>
+        </div>
+        <div class="field">
+          <label class="label">Photo Image URL *</label>
+          <div class="control">
+            <input
+              class="input"
+              type="text"
+              placeholder="https://...."
+              formControlName="photoUrl"
+            />
+          </div>
+          <p
+            *ngIf="
+              (!formGroup.controls.photoUrl.valid &&
+                formGroup.controls.photoUrl.dirty) ||
+              hasErrors.photoUrl
+            "
+            class="help is-danger"
+          >
+            Photo URL is required
+          </p>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button type="submit" form="artist-form" class="button is-primary">
+              Save
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="tile is-child box">
+      <div class="image">
+        <figure class="image is-512x512">
+          <img
+            src="https://www.thoughtco.com/thmb/Vji4iLBqs1U4uGKT_qyFeInJg1Y=/768x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/german-names-58b5a0e25f9b5860468bc4d3.jpg"
+          />
+        </figure>
+      </div>
+    </div>
+  </div>
+</div>
