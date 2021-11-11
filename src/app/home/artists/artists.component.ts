@@ -11,7 +11,6 @@ import { ArtistsAPIService } from 'src/app/core/services/api/artistsAPI.service'
 })
 export class ArtistsComponent implements OnInit {
   isEdit: boolean;
-  editedArtist: Artist | undefined;
   apiErrorMessage: string;
   innerWidth: number;
 
@@ -39,11 +38,7 @@ export class ArtistsComponent implements OnInit {
   }
 
   saveArtist(artist: Artist): void {
-    if (artist.id) {
-      this.editArtist(artist);
-    } else {
-      this.createArtist(artist);
-    }
+    this.createArtist(artist);
   }
 
   createArtist(artist: Artist): void {
@@ -82,7 +77,6 @@ export class ArtistsComponent implements OnInit {
 
   closeModal(): void {
     this.isEdit = false;
-    this.editedArtist = undefined;
     this.apiErrorMessage = '';
   }
 
@@ -92,27 +86,11 @@ export class ArtistsComponent implements OnInit {
 
   openEditDialog(artist: Artist): void {
     this.isEdit = true;
-    this.editedArtist = artist;
-  }
-
-  editArtist(artist: Artist): void {
-    this.artistsAPIService.editArtist(artist).subscribe(
-      (res: any) => {
-        this.resetForm();
-        this.artistsAPIService
-          .getArtists()
-          .subscribe((artists: Artist[]) => this.artistService.setArtists(artists));
-      },
-      (err: any) => {
-        this.apiErrorMessage = err.error.error;
-      }
-    );
   }
 
   private resetForm(): void {
     this.isEdit = false;
     this.clearErrorMessage();
-    this.editedArtist = undefined;
   }
 
   // https://stackoverflow.com/a/45350792/11829823

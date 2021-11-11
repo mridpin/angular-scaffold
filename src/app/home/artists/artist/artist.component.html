@@ -8,7 +8,7 @@
           [text]="apiErrorMessage"
         ></app-notification-panel>
       </div>
-      <form [formGroup]="formGroup" id="artist-form" (ngSubmit)="saveEdit()">
+      <form [formGroup]="formGroup" id="artist-form" (ngSubmit)="editArtist()">
         <div class="field">
           <label class="label">Artist name *</label>
           <div class="control">
@@ -27,7 +27,7 @@
             "
             class="help is-danger"
           >
-            Title is required
+            Name is required
           </p>
         </div>
         <div class="field">
@@ -96,21 +96,34 @@
             Photo URL is required
           </p>
         </div>
-        <div class="field">
+        <div class="field is-grouped">
           <div class="control">
-            <button type="submit" form="artist-form" class="button is-primary">
-              Save
+            <button type="submit" class="button is-primary">Save</button>
+          </div>
+          <div class="control">
+            <button
+              type="submit"
+              class="button is-primary"
+              (click)="returnAfterSave = true"
+            >
+              Save and exit
+            </button>
+          </div>
+          <div>
+            <button class="button is-light" routerLink="/artists">
+              Cancel
             </button>
           </div>
         </div>
+        <p *ngIf="savedMessage" class="has-text-info">
+          {{ savedMessage }}
+        </p>
       </form>
     </div>
     <div class="tile is-child box">
       <div class="image">
         <figure class="image is-512x512">
-          <img
-            src="https://www.thoughtco.com/thmb/Vji4iLBqs1U4uGKT_qyFeInJg1Y=/768x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/german-names-58b5a0e25f9b5860468bc4d3.jpg"
-          />
+          <img [src]="artist.photoUrl" [alt]="artist.name" />
         </figure>
       </div>
     </div>

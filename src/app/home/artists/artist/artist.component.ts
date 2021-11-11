@@ -1,8 +1,7 @@
 import { formatDate } from '@angular/common';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { Artist } from 'src/app/core/models/artist';
 import { ArtistsAPIService } from 'src/app/core/services/api/artistsAPI.service';
@@ -18,26 +17,21 @@ const minDate = new Date('1909-01-01T00:00:00.000Z');
 @Component({
   selector: 'app-artist',
   templateUrl: './artist.component.html',
-  styleUrls: ['./artist.component.css']
+  styleUrls: ['./artist.component.css'],
 })
-export class ArtistComponent implements OnInit, OnDestroy {
-
-  private routeSub: Subscription = new Subscription();
-
-  @Input() apiErrorMessage: string;
-  // instead of input, we get from db, using route id, or even a resolver
-  @Input() artist: Artist | undefined;
-  @Output() cancelEvent = new EventEmitter<Artist>();
-  @Output() saveEditEvent = new EventEmitter<Artist>();
-  @Output() clearErrorMessageEvent = new EventEmitter<any>();
+export class ArtistComponent implements OnInit {
+  apiErrorMessage: string;
 
   formGroup: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    // todo: add a proper custom date validator
     birthdate: new FormControl('', [Validators.required]),
     deathDate: new FormControl(''),
     photoUrl: new FormControl('', [Validators.required]),
   });
+
+  artist: Artist;
+  savedMessage = '';
+  returnAfterSave = false;
 
   hasErrors: ErrorDict = {
     name: false,
@@ -54,56 +48,74 @@ export class ArtistComponent implements OnInit, OnDestroy {
     return maxDate;
   }
 
-  constructor(private route: ActivatedRoute, private artistAPIService: ArtistsAPIService, private artistSrevice: ArtistService) {
+  constructor(
+    private route: ActivatedRoute,
+    private artistsAPIService: ArtistsAPIService,
+    private artistService: ArtistService,
+    private router: Router
+  ) {
     this.apiErrorMessage = '';
+    this.artist = {
+      id: '',
+      name: '',
+      birthdate: new Date(),
+      deathDate: new Date(),
+      photoUrl: '',
+    };
   }
 
   ngOnInit(): void {
-    this.route.params.pipe(
-      switchMap((params: Params) => this.artistAPIService.getArtist(params.id))
-    ).subscribe((artist: Artist) => {
-      this.artist = artist;
-      this.formGroup.controls.name.setValue(artist.name);
-      this.formGroup.controls.birthdate.setValue(
-        formatDate(artist.birthdate, 'yyyy-MM-dd', 'en')
-      );
-      this.formGroup.controls.deathDate.setValue(
-        artist.deathDate
-          ? formatDate(artist.deathDate, 'yyyy-MM-dd', 'en')
-          : ''
-      );
-      this.formGroup.controls.photoUrl.setValue(artist.photoUrl);
-    });
+    this.route.params
+      .pipe(
+        switchMap((params: Params) =>
+          this.artistsAPIService.getArtist(params.id)
+        )
+      )
+      .subscribe((artist: Artist) => {
+        this.artist = artist;
+        this.artistService.setArtist(this.artist);
+        this.updateFormFields();
+      });
   }
 
-  saveEdit(): void {
-    if (this.formGroup.valid) {
-      const newArtist: Artist = {
-        id: this.artist?.id || '',
-        name: this.formGroup.controls.name.value,
-        birthdate: this.formGroup.controls.birthdate.value,
-        photoUrl: this.formGroup.controls.photoUrl.value,
-        deathDate: this.formGroup.controls.deathDate.value,
-      };
-      this.saveEditEvent.emit(newArtist);
-    } else {
-      this.hasErrors.name = !this.formGroup.controls.name.valid;
-      this.hasErrors.birthdate = !this.formGroup.controls.birthdate.valid;
-      this.hasErrors.deathDate = !this.formGroup.controls.deathDate.valid;
-      this.hasErrors.photoUrl = !this.formGroup.controls.photoUrl.valid;
-    }
+  updateFormFields(): void {
+    this.formGroup.controls.name.setValue(this.artist.name);
+    this.formGroup.controls.birthdate.setValue(
+      formatDate(this.artist.birthdate, 'yyyy-MM-dd', 'en')
+    );
+    this.formGroup.controls.deathDate.setValue(
+      this.artist.deathDate
+        ? formatDate(this.artist.deathDate, 'yyyy-MM-dd', 'en')
+        : ''
+    );
+    this.formGroup.controls.photoUrl.setValue(this.artist.photoUrl);
   }
 
-  cancelEdit(): void {
-    this.cancelEvent.emit(this.artist);
+  editArtist(): void {
+    const newArtist = {
+      id: this.artist.id,
+      name: this.formGroup.controls.name.value,
+      birthdate: this.formGroup.controls.birthdate.value,
+      deathDate: this.formGroup.controls.deathDate.value,
+      photoUrl: this.formGroup.controls.photoUrl.value,
+    };
+    this.artistsAPIService.editArtist(newArtist).subscribe(
+      (artist: Artist) => {
+        this.artist = artist;
+        this.artistService.setArtist(this.artist);
+        this.updateFormFields();
+        this.savedMessage = 'Artist saved!';
+        this.returnAfterSave
+          ? this.router.navigateByUrl('artists')
+          : setTimeout(() => (this.savedMessage = ''), 3000);
+      },
+      (err: any) => {
+        this.apiErrorMessage = err.error.error;
+      }
+    );
   }
 
   closeErrorPanel(): void {
-    this.clearErrorMessageEvent.emit();
+    this.apiErrorMessage = '';
   }
-
-  ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
-  }
-
 }

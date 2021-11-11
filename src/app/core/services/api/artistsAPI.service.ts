@@ -10,7 +10,7 @@ export class ArtistsAPIService {
   constructor(
     private apiService: ApiService,
     private artistAdapter: ArtistAdapter
-  ) {}
+  ) { }
 
   getArtists(): Observable<Artist[]> {
     const url = environment.apiUrl + '/artists/all';
@@ -25,7 +25,9 @@ export class ArtistsAPIService {
 
   getArtist(id: string): Observable<Artist> {
     const url = environment.apiUrl + '/artist/' + id;
-    return this.apiService.get(url);
+    return this.apiService.get(url).pipe(
+      map((res: any) => this.artistAdapter.adapt(res))
+    );
   }
 
   createArtist(artist: Artist): Observable<Artist> {
@@ -41,7 +43,9 @@ export class ArtistsAPIService {
 
   editArtist(artist: Artist): Observable<Artist> {
     const url = environment.apiUrl + '/artist' + '/' + artist.id;
-    return this.apiService.put(url, artist);
+    return this.apiService.put(url, artist).pipe(
+      map((res: any) => this.artistAdapter.adapt(res))
+    );
   }
 
   deleteArtist(artistId: string): Observable<Artist> {
